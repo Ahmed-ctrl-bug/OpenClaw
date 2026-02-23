@@ -1,0 +1,1 @@
+(function(){var b=document.querySelector('div[data-testid="tweetTextarea_0"]');return b?b.textContent:'empty'})()

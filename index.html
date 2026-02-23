@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyClaw - Your AI that does things while you sleep. Securely.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card-hover: #1a1a26;
+      --text: #e8e8ed;
+      --text-muted: #8888a0;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --accent-glow: rgba(108, 92, 231, 0.3);
+      --border: #1e1e2e;
+      --green: #00d4aa;
+      --red: #ff6b6b;
+      --orange: #ffa94d;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f5fa;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f0f0f5;
+      --text: #1a1a2e;
+      --text-muted: #666680;
+      --border: #e0e0ea;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ─────────────────────── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,15,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    [data-theme="light"] nav { background: rgba(245,245,250,0.85); }
+
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      font-weight: 700; font-size: 1.2rem; color: var(--text);
+      display: flex; align-items: center; gap: 8px; text-decoration: none;
+    }
+    .nav-brand span { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); border-radius: 8px; padding: 6px 10px;
+      cursor: pointer; font-size: 1rem;
+    }
+
+    /* ── Buttons ──────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 10px; font-weight: 600;
+      font-size: 0.95rem; text-decoration: none; border: none;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent-light); }
+    .btn-sm { padding: 8px 18px; font-size: 0.85rem; }
+    .btn-lg { padding: 16px 36px; font-size: 1.1rem; border-radius: 14px; }
+
+    /* ── Sections ─────────────────── */
+    section { padding: 100px 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; font-size: 0.75rem; font-weight: 600;
+      color: var(--accent-light); letter-spacing: 2px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;
+      line-height: 1.15; margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.1rem; color: var(--text-muted);
+      max-width: 640px; line-height: 1.7;
+    }
+    .section-sub strong { color: var(--accent-light); font-weight: 600; }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    /* ── Hero ─────────────────────── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; text-align: center;
+      position: relative; padding-top: 120px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; overflow: hidden; z-index: 0;
+    }
+    .hero-bg .orb {
+      position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4;
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero-bg .orb-1 { width: 400px; height: 400px; background: var(--accent); top: 10%; left: 20%; }
+    .hero-bg .orb-2 { width: 300px; height: 300px; background: #00d4aa; bottom: 20%; right: 15%; animation-delay: 3s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.5vw, 4rem); font-weight: 800;
+      line-height: 1.1; margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent-light) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--text-muted);
+      max-width: 600px; margin: 0 auto 36px; line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Floating App Icons ───────── */
+    .floating-icons {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 20px; margin-top: 60px; opacity: 0.5;
+    }
+    .floating-icons .icon-pill {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 40px; padding: 10px 20px;
+      font-size: 0.85rem; color: var(--text-muted);
+      animation: float 6s ease-in-out infinite;
+    }
+    .floating-icons .icon-pill:nth-child(2n) { animation-delay: 1s; }
+    .floating-icons .icon-pill:nth-child(3n) { animation-delay: 2s; }
+
+    /* ── Chat Demo ────────────────── */
+    .chat-demo {
+      max-width: 480px; margin: 50px auto 0;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .chat-header {
+      padding: 14px 20px; border-bottom: 1px solid var(--border);
+      font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
+    }
+    .chat-header .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .chat-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .chat-msg {
+      padding: 12px 16px; border-radius: 12px; font-size: 0.85rem;
+      max-width: 85%; line-height: 1.5;
+    }
+    .chat-user {
+      background: var(--accent); color: #fff; align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-agent {
+      background: var(--bg-card-hover); color: var(--text); align-self: flex-start;
+      border: 1px solid var(--border); border-bottom-left-radius: 4px;
+    }
+    .chat-status {
+      font-size: 0.75rem; color: var(--text-muted); padding: 4px 0;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .chat-status .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+    /* ── Messaging Apps ──────────── */
+    .messaging-grid {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+      margin-top: 40px;
+    }
+    .msg-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 32px;
+      text-align: center; min-width: 140px; transition: all 0.2s;
+    }
+    .msg-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .msg-card .msg-icon { font-size: 2rem; margin-bottom: 8px; }
+    .msg-card .msg-name { font-weight: 600; font-size: 0.9rem; }
+    .msg-card .msg-badge {
+      font-size: 0.7rem; color: var(--green); margin-top: 4px;
+    }
+    .msg-card .msg-soon {
+      font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;
+    }
+
+    /* ── Integrations ────────────── */
+    .integrations-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px; margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto;
+    }
+    .int-chip {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 8px; text-align: center;
+      font-size: 0.8rem; font-weight: 500; transition: all 0.2s;
+    }
+    .int-chip:hover { border-color: var(--accent); transform: scale(1.05); }
+    .int-chip .int-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+    .int-more {
+      font-size: 1.1rem; color: var(--accent-light); font-weight: 700;
+      margin-top: 24px;
+    }
+
+    /* ── Feature Cards ───────────── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px; margin-top: 50px;
+    }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px;
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--accent); transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── Security / Comparison ──── */
+    .warning-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px; margin-top: 40px;
+    }
+    .warning-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px;
+      border-top: 3px solid var(--red); position: relative;
+    }
+    .warning-card .warn-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--red); margin-bottom: 12px;
+    }
+    .warning-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .warning-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── Comparison Table ─────────── */
+    .compare-table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      margin-top: 40px; overflow: hidden; border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+    .compare-table th, .compare-table td {
+      padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .compare-table thead th {
+      background: var(--bg-card); font-weight: 700; font-size: 0.95rem;
+    }
+    .compare-table thead th:nth-child(2) { color: var(--accent-light); }
+    .compare-table thead th:nth-child(3) { color: var(--text-muted); }
+    .compare-table tbody td { background: var(--bg); }
+    .compare-table tbody td:first-child { font-weight: 600; }
+    .compare-table tbody td:nth-child(2) { color: var(--green); }
+    .compare-table tbody td:nth-child(3) { color: var(--text-muted); }
+    .compare-table tbody tr:last-child td { border-bottom: none; }
+
+    /* ── Use Cases ────────────────── */
+    .usecases-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px; margin-top: 40px;
+    }
+    .usecase-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px;
+      transition: all 0.3s;
+    }
+    .usecase-card:hover {
+      border-color: var(--accent); transform: translateY(-3px);
+      box-shadow: 0 6px 24px var(--accent-glow);
+    }
+    .usecase-apps {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    }
+    .usecase-apps .app-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--bg-card-hover); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; border: 1px solid var(--border);
+    }
+    .usecase-apps .app-plus { color: var(--text-muted); font-weight: 600; }
+    .usecase-card p {
+      font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ── Contact Form ────────────── */
+    .contact-form {
+      max-width: 520px; margin: 40px auto 0;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .contact-form input, .contact-form textarea {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 18px; color: var(--text);
+      font-family: inherit; font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      border-color: var(--accent);
+    }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+    .contact-form input::placeholder, .contact-form textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .form-status {
+      font-size: 0.9rem; text-align: center; min-height: 24px;
+    }
+    .form-status.success { color: var(--green); }
+    .form-status.error { color: var(--red); }
+
+    /* ── CTA ──────────────────────── */
+    .final-cta {
+      text-align: center; padding: 120px 2rem;
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(108,92,231,0.08) 50%, var(--bg) 100%);
+    }
+    .final-cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 16px;
+    }
+    .final-cta p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 32px; }
+
+    /* ── Footer ───────────────────── */
+    footer {
+      text-align: center; padding: 32px 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+
+    /* ── Animations ───────────────── */
+    .fade-in {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ───────────────── */
+    @media (max-width: 768px) {
+      section { padding: 60px 1rem; }
+      .hero { padding-top: 100px; min-height: auto; }
+      .hero h1 { font-size: 2rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .warning-cards { grid-template-columns: 1fr; }
+      .usecases-grid { grid-template-columns: 1fr; }
+      .compare-table th, .compare-table td { padding: 12px 14px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">MyClaw</a>
+      <div class="nav-right">
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9681;</button>
+        <a href="#contact" class="btn btn-primary btn-sm">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+    <div class="hero-content">
+      <h1>Your AI that does things while you sleep. Securely.</h1>
+      <p>MyClaw is a 24/7 AI assistant with 1000+ tools via <strong>OAuth</strong> and <strong>sandboxed execution</strong>. Built on the ideas behind OpenClaw, rebuilt from scratch for security.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-primary">Deploy in seconds.</a>
+        <a href="#contact" class="btn btn-secondary">Get Started</a>
+      </div>
+
+      <!-- Floating app pills -->
+      <div class="floating-icons">
+        <div class="icon-pill">&#9993; Gmail</div>
+        <div class="icon-pill">&#128025; GitHub</div>
+        <div class="icon-pill">&#128221; Jira</div>
+        <div class="icon-pill">&#128466; Notion</div>
+        <div class="icon-pill">&#128172; Slack</div>
+        <div class="icon-pill">&#128197; Calendar</div>
+        <div class="icon-pill">&#128202; Stripe</div>
+        <div class="icon-pill">&#128194; Drive</div>
+      </div>
+
+      <!-- Chat Demo -->
+      <div class="chat-demo fade-in">
+        <div class="chat-header">
+          <div class="dot"></div> MyClaw Agent
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg chat-user">plz handle my customer complaints and log in notion</div>
+          <div class="chat-status"><div class="status-dot"></div> SEARCH_TOOLS &mdash; Finding the right tool</div>
+          <div class="chat-status"><div class="status-dot"></div> GMAIL &mdash; CONNECTED &rarr; sarah@company.com</div>
+          <div class="chat-status"><div class="status-dot"></div> EXECUTE &mdash; Executing 3 tools</div>
+          <div class="chat-msg chat-agent">Drafted 3 replies and logged each complaint in your Notion tracker.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MESSAGING APPS ═══ -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">Messaging</div>
+      <h2 class="section-title">Every Messaging App</h2>
+      <p class="section-sub mx-auto">Chat with your AI on Telegram, WhatsApp, Discord, or Slack. Same agent, same tools, wherever you are.</p>
+      <div class="messaging-grid">
+        <div class="msg-card">
+          <div class="msg-icon">&#9992;</div>
+          <div class="msg-name">Telegram</div>
+          <div class="msg-badge">&#10003; Active</div>
+        </div>
+        <div class="msg-card">
+          <div class="msg-icon">&#128172;</div>
+          <div class="msg-name">WhatsApp</div>
+          <div class="msg-soon">Soon</div>
+        </div>
+        <div class="msg-card">
+          <div class="msg-icon">&#127918;</div>
+          <div class="msg-name">Discord</div>
+          <div class="msg-soon">Soon</div>
+        </div>
+        <div class="msg-card">
+          <div class="msg-icon">&#128488;</div>
+          <div class="msg-name">Slack</div>
+          <div class="msg-soon">Soon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ INTEGRATIONS ═══ -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">Integrations</div>
+      <h2 class="section-title">1000+ Integrations</h2>
+      <p class="section-sub mx-auto">Connect to all of your favourite apps in a single click.</p>
+      <div class="integrations-grid">
+        <div class="int-chip"><span class="int-emoji">&#9993;</span>Gmail</div>
+        <div class="int-chip"><span class="int-emoji">&#128025;</span>GitHub</div>
+        <div class="int-chip"><span class="int-emoji">&#128466;</span>Notion</div>
+        <div class="int-chip"><span class="int-emoji">&#127912;</span>Figma</div>
+        <div class="int-chip"><span class="int-emoji">&#9866;</span>Linear</div>
+        <div class="int-chip"><span class="int-emoji">&#128221;</span>Jira</div>
+        <div class="int-chip"><span class="int-emoji">&#128172;</span>Discord</div>
+        <div class="int-chip"><span class="int-emoji">&#128194;</span>Drive</div>
+        <div class="int-chip"><span class="int-emoji">&#128197;</span>Calendar</div>
+        <div class="int-chip"><span class="int-emoji">&#9989;</span>Todoist</div>
+        <div class="int-chip"><span class="int-emoji">&#128203;</span>Asana</div>
+        <div class="int-chip"><span class="int-emoji">&#128466;</span>Trello</div>
+        <div class="int-chip"><span class="int-emoji">&#128202;</span>Stripe</div>
+        <div class="int-chip"><span class="int-emoji">&#128200;</span>HubSpot</div>
+        <div class="int-chip"><span class="int-emoji">&#128451;</span>Airtable</div>
+      </div>
+      <p class="int-more">+ 985 more</p>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURES ═══ -->
+  <section class="fade-in">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#128274;</div>
+          <h3>OAuth Only</h3>
+          <p>Connects through <strong>OAuth</strong>. No passwords stored or shared.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <h3>Zero Setup</h3>
+          <p><strong>Sign up</strong>, chat, done. No API keys or config files.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#127769;</div>
+          <h3>Works While You Sleep</h3>
+          <p><strong>Schedule</strong> tasks and let your agent handle them on autopilot.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128737;</div>
+          <h3>Sandboxed Execution</h3>
+          <p>Every action runs in an <strong>isolated cloud environment</strong> that's gone when the task is done.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECURITY WARNINGS ═══ -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">Security</div>
+      <h2 class="section-title">Stop giving OpenClaw your passwords.</h2>
+      <p class="section-sub mx-auto">Everything OpenClaw can do and more, rebuilt from scratch with security at the foundation.</p>
+      <div class="warning-cards">
+        <div class="warning-card">
+          <div class="warn-label">&#9888; Untrusted Skills</div>
+          <h3>5,700+ unvetted community skills on ClawHub.</h3>
+          <p>Malicious ones were found within weeks. MyClaw runs on Composio's managed tool surface instead.</p>
+        </div>
+        <div class="warning-card">
+          <div class="warn-label">&#9888; Exposed Credentials</div>
+          <h3>API keys stored in plaintext on your machine.</h3>
+          <p>900+ instances found leaking tokens. MyClaw never gives the agent a raw key.</p>
+        </div>
+        <div class="warning-card">
+          <div class="warn-label">&#9888; Unsafe Code Execution</div>
+          <h3>Scripts run locally with your permissions.</h3>
+          <p>One prompt injection from an email can trigger destructive commands. MyClaw sandboxes all execution remotely.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COMPARISON TABLE ═══ -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <h2 class="section-title">Why is MyClaw better?</h2>
+      <div style="overflow-x:auto; margin-top: 40px;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Aspect</th>
+              <th>MyClaw</th>
+              <th>Vanilla OpenClaw</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Setup</td>
+              <td>Seconds</td>
+              <td>30-60 min (Node, Tailscale, tunnels)</td>
+            </tr>
+            <tr>
+              <td>Credentials</td>
+              <td>Encrypted, managed by Composio</td>
+              <td>Plaintext in local config</td>
+            </tr>
+            <tr>
+              <td>Code Execution</td>
+              <td>Remote sandbox</td>
+              <td>On your local machine</td>
+            </tr>
+            <tr>
+              <td>Integrations</td>
+              <td>500+ with managed OAuth</td>
+              <td>Manual API key setup per app</td>
+            </tr>
+            <tr>
+              <td>Skill Security</td>
+              <td>Managed tool surface</td>
+              <td>Unvetted public registry</td>
+            </tr>
+            <tr>
+              <td>Audit Trails</td>
+              <td>Full action log</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td>Revocation</td>
+              <td>One click</td>
+              <td>Find and delete config files</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 32px;">
+        <a href="#contact" class="btn btn-primary">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ USE CASES ═══ -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">Use Cases</div>
+      <h2 class="section-title">All your favourite apps. Zero setup.</h2>
+      <div class="usecases-grid">
+        <div class="usecase-card">
+          <div class="usecase-apps">
+            <div class="app-icon">&#9993;</div>
+            <span class="app-plus">+</span>
+            <div class="app-icon">&#128466;</div>
+          </div>
+          <p>"Check my Gmail for all customer emails this month, categorize by complaint vs feature request..."</p>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-apps">
+            <div class="app-icon">&#128172;</div>
+            <span class="app-plus">+</span>
+            <div class="app-icon">&#128196;</div>
+          </div>
+          <p>"Pull all Reddit threads mentioning [competitor] from the last 3 months, analyze sentiment..."</p>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-apps">
+            <div class="app-icon">&#128488;</div>
+            <span class="app-plus">+</span>
+            <div class="app-icon">&#9866;</div>
+          </div>
+          <p>"Summarize all Slack messages in #product-feedback from this week..."</p>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-apps">
+            <div class="app-icon">&#128202;</div>
+          </div>
+          <p>"Scrape G2 and Capterra reviews for our top 5 competitors..."</p>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-apps">
+            <div class="app-icon">&#9866;</div>
+            <span class="app-plus">+</span>
+            <div class="app-icon">&#128200;</div>
+          </div>
+          <p>"Pull this sprint's completed tickets from Linear, draft release notes..."</p>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-apps">
+            <div class="app-icon">&#128451;</div>
+            <span class="app-plus">+</span>
+            <div class="app-icon">&#128466;</div>
+          </div>
+          <p>"Analyze our Supabase user_events table, identify drop-off patterns..."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact" class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="section-sub mx-auto">Have a question or want to learn more? Drop us a message.</p>
+      <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message..." required></textarea>
+        <button type="submit" class="btn btn-primary" id="contactBtn">Send Message</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══ FINAL CTA ═══ -->
+  <section class="final-cta fade-in">
+    <h2>Ready to meet your personal assistant?</h2>
+    <p>Your AI is waiting. Set it up in seconds.</p>
+    <a href="#contact" class="btn btn-primary btn-lg">Get Started Free &rarr;</a>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    MyClaw
+  </footer>
+
+  <!-- ═══ JS ═══ -->
+  <script>
+    // Theme toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    // Scroll-triggered fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Contact form submission
+    async function submitContact(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('contactBtn');
+      const status = document.getElementById('formStatus');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.className = 'form-status';
+      status.textContent = '';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: form.name.value,
+            email: form.email.value,
+            message: form.message.value
+          })
+        });
+        if (res.ok) {
+          status.className = 'form-status success';
+          status.textContent = 'Message sent! We\'ll get back to you soon.';
+          form.reset();
+        } else {
+          throw new Error('Failed');
+        }
+      } catch (err) {
+        status.className = 'form-status error';
+        status.textContent = 'Something went wrong. Please try again.';
+      }
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }
+  </script>
+</body>
+</html>
