@@ -741,8 +741,7 @@
         if (res.ok) {
           status.className = 'form-status success';
           if (service !== 'question') {
-            const prices = { starter: '$75', professional: '$200', enterprise: '$400' };
-            status.innerHTML = 'Request received! To get started, send <strong>' + prices[service] + '</strong> via <a href="https://paypal.me/ahmedkhan290" target="_blank" style="color:var(--accent-light);text-decoration:underline;">PayPal</a> and I\'ll begin your setup within 24 hours.';
+            status.innerHTML = 'Request received! I\'ll review your requirements and send a payment invoice to your email within a few hours. Check your inbox!';
           } else {
             status.textContent = 'Message sent! I\'ll get back to you soon.';
           }
