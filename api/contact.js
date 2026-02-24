@@ -69,7 +69,7 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        records: [{ fields: { Name: name, Email: email, Service: tierLabel, Message: message, Status: 'Todo' } }]
+        records: [{ fields: { Name: name, Email: email, Message: '[' + tierLabel + '] ' + message, Status: 'Todo' } }]
       }),
     });
 
