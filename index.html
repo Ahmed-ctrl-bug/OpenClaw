@@ -44,6 +44,27 @@
       overflow-x: hidden;
     }
 
+    /* ── Scroll Progress Bar ──── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--green));
+      width: 0; pointer-events: none;
+    }
+
+    /* ── Back to Top ────────── */
+    .back-to-top {
+      position: fixed; bottom: 32px; right: 32px; z-index: 150;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent); color: #fff; border: none;
+      font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s, transform 0.2s;
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { transform: translateY(-2px); }
+
     /* ── Nav ─────────────────────── */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
@@ -64,12 +85,32 @@
       display: flex; align-items: center; gap: 8px; text-decoration: none;
     }
     .nav-brand span { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent-light); }
     .nav-right { display: flex; align-items: center; gap: 12px; }
     .theme-toggle {
       background: var(--bg-card); border: 1px solid var(--border);
       color: var(--text); border-radius: 8px; padding: 6px 10px;
       cursor: pointer; font-size: 1rem;
     }
+
+    /* ── Hamburger Menu ──────── */
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      flex-direction: column; gap: 5px; padding: 4px; z-index: 110;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
     /* ── Buttons ──────────────────── */
     .btn {
@@ -120,11 +161,16 @@
       position: absolute; inset: 0; overflow: hidden; z-index: 0;
     }
     .hero-bg .orb {
-      position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4;
+      border-radius: 50%; filter: blur(100px); opacity: 0.4;
       animation: float 8s ease-in-out infinite;
     }
-    .hero-bg .orb-1 { width: 400px; height: 400px; background: var(--accent); top: 10%; left: 20%; }
-    .hero-bg .orb-2 { width: 300px; height: 300px; background: #00d4aa; bottom: 20%; right: 15%; animation-delay: 3s; }
+    .hero-bg .orb-1 { width: 400px; height: 400px; background: var(--accent); }
+    .hero-bg .orb-2 { width: 300px; height: 300px; background: #00d4aa; animation-delay: 3s; }
+    .orb-wrap {
+      position: absolute; will-change: transform;
+    }
+    .hero-bg .orb-wrap:nth-child(1) { top: 10%; left: 20%; }
+    .hero-bg .orb-wrap:nth-child(2) { bottom: 20%; right: 15%; }
     @keyframes float {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-30px); }
@@ -137,6 +183,11 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .tw-cursor {
+      -webkit-text-fill-color: var(--accent-light);
+      animation: blink-cursor 0.75s step-end infinite;
+    }
+    @keyframes blink-cursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
     .hero p {
       font-size: 1.15rem; color: var(--text-muted);
       max-width: 600px; margin: 0 auto 36px; line-height: 1.7;
@@ -209,6 +260,22 @@
     }
     .msg-card .msg-soon {
       font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;
+    }
+
+    /* ── Stats Section ───────── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px; max-width: 900px; margin: 0 auto;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-light), var(--green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;
     }
 
     /* ── Integrations ────────────── */
@@ -322,15 +389,23 @@
       max-width: 520px; margin: 40px auto 0;
       display: flex; flex-direction: column; gap: 16px;
     }
+    .contact-form .field-wrap { position: relative; }
+    .contact-form .field-error {
+      font-size: 0.75rem; color: var(--red); margin-top: 4px;
+      display: none; text-align: left;
+    }
+    .contact-form .field-wrap.show-error .field-error { display: block; }
     .contact-form input, .contact-form textarea {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 10px; padding: 14px 18px; color: var(--text);
       font-family: inherit; font-size: 0.95rem; outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s; width: 100%;
     }
     .contact-form input:focus, .contact-form textarea:focus {
       border-color: var(--accent);
     }
+    .contact-form input.valid, .contact-form textarea.valid { border-color: var(--green); }
+    .contact-form input.invalid, .contact-form textarea.invalid { border-color: var(--red); }
     .contact-form textarea { resize: vertical; min-height: 120px; }
     .contact-form input::placeholder, .contact-form textarea::placeholder {
       color: var(--text-muted);
@@ -374,17 +449,34 @@
       .warning-cards { grid-template-columns: 1fr; }
       .usecases-grid { grid-template-columns: 1fr; }
       .compare-table th, .compare-table td { padding: 12px 14px; font-size: 0.8rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none; position: absolute; top: 64px; left: 0; width: 100%;
+        background: rgba(10,10,15,0.95); backdrop-filter: blur(20px);
+        flex-direction: column; padding: 16px 2rem;
+        border-bottom: 1px solid var(--border);
+      }
+      [data-theme="light"] .nav-links { background: rgba(245,245,250,0.95); }
+      .nav-links.open { display: flex; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- ═══ NAV ═══ -->
   <nav>
     <div class="nav-inner">
       <a href="/" class="nav-brand">MyClaw</a>
-      <div style="display:flex;align-items:center;gap:24px;">
-        <a href="/services.html" style="color:var(--text-muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-light)'" onmouseout="this.style.color='var(--text-muted)'">Services</a>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <a href="/services.html">Services</a>
       </div>
       <div class="nav-right">
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9681;</button>
@@ -394,13 +486,17 @@
   </nav>
 
   <!-- ═══ HERO ═══ -->
-  <section class="hero">
+  <section class="hero" id="heroSection">
     <div class="hero-bg">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
+      <div class="orb-wrap" data-speed="0.03">
+        <div class="orb orb-1"></div>
+      </div>
+      <div class="orb-wrap" data-speed="0.05">
+        <div class="orb orb-2"></div>
+      </div>
     </div>
     <div class="hero-content">
-      <h1>Your AI that does things while you sleep. Securely.</h1>
+      <h1>Your AI for <span id="typewriter"></span><span class="tw-cursor">|</span></h1>
       <p>MyClaw is a 24/7 AI assistant with 1000+ tools via <strong>OAuth</strong> and <strong>sandboxed execution</strong>. Built on the ideas behind OpenClaw, rebuilt from scratch for security.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary">Deploy in seconds.</a>
@@ -461,6 +557,30 @@
           <div class="msg-icon">&#128488;</div>
           <div class="msg-name">Slack</div>
           <div class="msg-soon">Soon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ═══ -->
+  <section class="fade-in" id="statsSection">
+    <div class="container text-center">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" data-target="1000" data-suffix="+">0</div>
+          <div class="stat-label">Integrations</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="24" data-suffix="/7">0</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="500" data-suffix="+">0</div>
+          <div class="stat-label">OAuth Apps</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="0" data-suffix="">Zero</div>
+          <div class="stat-label">Passwords Stored</div>
         </div>
       </div>
     </div>
@@ -668,15 +788,24 @@
       <h2 class="section-title">Get in Touch</h2>
       <p class="section-sub mx-auto">Have a question or want to learn more? Drop us a message.</p>
       <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
-        <input type="text" name="name" placeholder="Your name" required>
-        <input type="email" name="email" placeholder="Your email" required>
+        <div class="field-wrap">
+          <input type="text" name="name" placeholder="Your name" required>
+          <div class="field-error" data-for="name">Please enter your name (at least 2 characters).</div>
+        </div>
+        <div class="field-wrap">
+          <input type="email" name="email" placeholder="Your email" required>
+          <div class="field-error" data-for="email">Please enter a valid email address.</div>
+        </div>
         <select name="service" style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--text);font-family:inherit;font-size:0.95rem;outline:none;appearance:none;cursor:pointer;">
           <option value="question">Just a question</option>
           <option value="starter">Starter — $75</option>
           <option value="professional">Professional — $200</option>
           <option value="enterprise">Enterprise — $400</option>
         </select>
-        <textarea name="message" placeholder="Your message..." required></textarea>
+        <div class="field-wrap">
+          <textarea name="message" placeholder="Your message..." required></textarea>
+          <div class="field-error" data-for="message">Please enter a message (at least 10 characters).</div>
+        </div>
         <button type="submit" class="btn btn-primary" id="contactBtn">Send Message</button>
         <div class="form-status" id="formStatus"></div>
       </form>
@@ -695,40 +824,285 @@
     MyClaw
   </footer>
 
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">&#8593;</button>
+
   <!-- ═══ JS ═══ -->
   <script>
-    // Theme toggle
+    // ── Theme toggle ──
     function toggleTheme() {
       const html = document.documentElement;
       const current = html.getAttribute('data-theme');
       html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
     }
 
-    // Scroll-triggered fade-in
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+    // ── Hamburger menu ──
+    function toggleMenu() {
+      document.getElementById('hamburger').classList.toggle('active');
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    // Auto-close on link click
+    document.querySelectorAll('#navLinks a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        document.getElementById('hamburger').classList.remove('active');
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+
+    // ── Scroll Progress Bar + Back to Top ──
+    var scrollProgress = document.getElementById('scrollProgress');
+    var backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      scrollProgress.style.width = progress + '%';
+
+      if (scrollTop > 400) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    // ── Smooth Scroll Offset Fix ──
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var id = link.getAttribute('href');
+      if (id === '#') return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+      // Close mobile menu if open
+      document.getElementById('hamburger').classList.remove('active');
+      document.getElementById('navLinks').classList.remove('open');
+    });
+
+    // ── Scroll-triggered fade-in ──
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
         }
       });
     }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    // ── Hero Typewriter Effect ──
+    (function() {
+      var phrases = [
+        'Telegram Bots',
+        'Discord Bots',
+        'Twitter Automation',
+        'Custom AI Skills',
+        'Cron Jobs',
+        'Webhook Integrations'
+      ];
+      var el = document.getElementById('typewriter');
+      var phraseIndex = 0;
+      var charIndex = 0;
+      var deleting = false;
+      var typeSpeed = 80;
+      var deleteSpeed = 40;
+      var pauseTime = 1800;
 
-    // Contact form submission
+      function tick() {
+        var current = phrases[phraseIndex];
+        if (!deleting) {
+          el.textContent = current.substring(0, charIndex + 1);
+          charIndex++;
+          if (charIndex === current.length) {
+            setTimeout(function() { deleting = true; tick(); }, pauseTime);
+            return;
+          }
+          setTimeout(tick, typeSpeed);
+        } else {
+          el.textContent = current.substring(0, charIndex - 1);
+          charIndex--;
+          if (charIndex === 0) {
+            deleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            setTimeout(tick, 300);
+            return;
+          }
+          setTimeout(tick, deleteSpeed);
+        }
+      }
+      tick();
+    })();
+
+    // ── Animated Stats Counters ──
+    (function() {
+      var counted = false;
+      var statsSection = document.getElementById('statsSection');
+      if (!statsSection) return;
+
+      var statsObserver = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !counted) {
+          counted = true;
+          var nums = statsSection.querySelectorAll('.stat-number');
+          nums.forEach(function(el) {
+            var target = parseInt(el.getAttribute('data-target'));
+            var suffix = el.getAttribute('data-suffix') || '';
+            if (target === 0) {
+              el.textContent = 'Zero';
+              return;
+            }
+            var duration = 2000;
+            var start = performance.now();
+            function update(now) {
+              var elapsed = now - start;
+              var progress = Math.min(elapsed / duration, 1);
+              var eased = 1 - Math.pow(1 - progress, 3);
+              var current = Math.floor(eased * target);
+              el.textContent = current.toLocaleString() + suffix;
+              if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+          });
+        }
+      }, { threshold: 0.3 });
+      statsObserver.observe(statsSection);
+    })();
+
+    // ── Contact Form Real-Time Validation ──
+    (function() {
+      var form = document.getElementById('contactForm');
+      if (!form) return;
+
+      var validators = {
+        name: function(v) { return v.trim().length >= 2; },
+        email: function(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); },
+        message: function(v) { return v.trim().length >= 10; }
+      };
+
+      var touched = {};
+
+      function validateField(field) {
+        var name = field.getAttribute('name');
+        if (!validators[name]) return;
+        if (!touched[name]) return;
+
+        var wrap = field.closest('.field-wrap');
+        var valid = validators[name](field.value);
+        field.classList.toggle('valid', valid && field.value.length > 0);
+        field.classList.toggle('invalid', !valid && field.value.length > 0);
+        if (wrap) wrap.classList.toggle('show-error', !valid && field.value.length > 0);
+      }
+
+      form.querySelectorAll('input, textarea').forEach(function(field) {
+        field.addEventListener('input', function() {
+          touched[field.getAttribute('name')] = true;
+          validateField(field);
+        });
+      });
+    })();
+
+    // ── Hero Orb Parallax ──
+    (function() {
+      var hero = document.getElementById('heroSection');
+      if (!hero) return;
+      var wraps = hero.querySelectorAll('.orb-wrap');
+      if (wraps.length === 0) return;
+
+      // Only on non-touch devices
+      if ('ontouchstart' in window) return;
+
+      hero.addEventListener('mousemove', function(e) {
+        var rect = hero.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        wraps.forEach(function(wrap) {
+          var speed = parseFloat(wrap.getAttribute('data-speed')) || 0.03;
+          var tx = x * speed * rect.width;
+          var ty = y * speed * rect.height;
+          wrap.style.transform = 'translate(' + tx + 'px, ' + ty + 'px)';
+        });
+      });
+
+      hero.addEventListener('mouseleave', function() {
+        wraps.forEach(function(wrap) {
+          wrap.style.transition = 'transform 0.5s ease';
+          wrap.style.transform = 'translate(0, 0)';
+          setTimeout(function() { wrap.style.transition = ''; }, 500);
+        });
+      });
+    })();
+
+    // ── Success Confetti ──
+    function launchConfetti() {
+      var canvas = document.createElement('canvas');
+      canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;pointer-events:none;';
+      document.body.appendChild(canvas);
+      var ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var colors = ['#6c5ce7', '#a29bfe', '#00d4aa', '#ffa94d', '#ff6b6b'];
+      var particles = [];
+      for (var i = 0; i < 120; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 16,
+          vy: Math.random() * -16 - 4,
+          size: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10,
+          gravity: 0.4,
+          opacity: 1
+        });
+      }
+
+      var frame = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var alive = false;
+        particles.forEach(function(p) {
+          p.x += p.vx;
+          p.vy += p.gravity;
+          p.y += p.vy;
+          p.rotation += p.rotSpeed;
+          p.opacity -= 0.008;
+          if (p.opacity <= 0) return;
+          alive = true;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation * Math.PI / 180);
+          ctx.globalAlpha = Math.max(0, p.opacity);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+        frame++;
+        if (alive && frame < 180) {
+          requestAnimationFrame(animate);
+        } else {
+          canvas.remove();
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // ── Contact form submission ──
     async function submitContact(e) {
       e.preventDefault();
-      const form = e.target;
-      const btn = document.getElementById('contactBtn');
-      const status = document.getElementById('formStatus');
+      var form = e.target;
+      var btn = document.getElementById('contactBtn');
+      var status = document.getElementById('formStatus');
       btn.disabled = true;
       btn.textContent = 'Sending...';
       status.className = 'form-status';
       status.textContent = '';
 
-      const service = form.service.value;
+      var service = form.service.value;
       try {
-        const res = await fetch('/api/contact', {
+        var res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -746,6 +1120,13 @@
             status.textContent = 'Message sent! I\'ll get back to you soon.';
           }
           form.reset();
+          // Clear validation states
+          form.querySelectorAll('input, textarea').forEach(function(f) {
+            f.classList.remove('valid', 'invalid');
+            var wrap = f.closest('.field-wrap');
+            if (wrap) wrap.classList.remove('show-error');
+          });
+          launchConfetti();
         } else {
           throw new Error('Failed');
         }
