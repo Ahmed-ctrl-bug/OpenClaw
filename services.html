@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyClaw - Services | OpenClaw Setup Done For You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card-hover: #1a1a26;
+      --text: #e8e8ed;
+      --text-muted: #8888a0;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --accent-glow: rgba(108, 92, 231, 0.3);
+      --border: #1e1e2e;
+      --green: #00d4aa;
+      --red: #ff6b6b;
+      --orange: #ffa94d;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f5fa;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f0f0f5;
+      --text: #1a1a2e;
+      --text-muted: #666680;
+      --border: #e0e0ea;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ─────────────────────── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,15,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    [data-theme="light"] nav { background: rgba(245,245,250,0.85); }
+
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      font-weight: 700; font-size: 1.2rem; color: var(--text);
+      display: flex; align-items: center; gap: 8px; text-decoration: none;
+    }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent-light); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); border-radius: 8px; padding: 6px 10px;
+      cursor: pointer; font-size: 1rem;
+    }
+
+    /* ── Buttons ──────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 10px; font-weight: 600;
+      font-size: 0.95rem; text-decoration: none; border: none;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent-light); }
+    .btn-sm { padding: 8px 18px; font-size: 0.85rem; }
+    .btn-lg { padding: 16px 36px; font-size: 1.1rem; border-radius: 14px; }
+
+    /* ── Sections ─────────────────── */
+    section { padding: 100px 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; font-size: 0.75rem; font-weight: 600;
+      color: var(--accent-light); letter-spacing: 2px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;
+      line-height: 1.15; margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.1rem; color: var(--text-muted);
+      max-width: 640px; line-height: 1.7;
+    }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    /* ── Hero ─────────────────────── */
+    .hero {
+      min-height: 60vh; display: flex; align-items: center;
+      justify-content: center; text-align: center;
+      position: relative; padding-top: 120px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; overflow: hidden; z-index: 0;
+    }
+    .hero-bg .orb {
+      position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4;
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero-bg .orb-1 { width: 400px; height: 400px; background: var(--accent); top: 10%; left: 20%; }
+    .hero-bg .orb-2 { width: 300px; height: 300px; background: #00d4aa; bottom: 20%; right: 15%; animation-delay: 3s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.5vw, 3.5rem); font-weight: 800;
+      line-height: 1.1; margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent-light) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--text-muted);
+      max-width: 600px; margin: 0 auto 36px; line-height: 1.7;
+    }
+
+    /* ── Pricing Cards ────────────── */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px; margin-top: 60px; align-items: start;
+    }
+    .pricing-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 36px 32px;
+      transition: all 0.3s; position: relative;
+    }
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+    .pricing-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px var(--accent-glow);
+    }
+    .pricing-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff; font-size: 0.75rem;
+      font-weight: 700; padding: 6px 16px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .pricing-card h3 {
+      font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;
+    }
+    .pricing-card .price {
+      font-size: 2.8rem; font-weight: 800; margin-bottom: 4px;
+    }
+    .pricing-card .price span {
+      font-size: 1rem; font-weight: 400; color: var(--text-muted);
+    }
+    .pricing-card .price-note {
+      font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;
+    }
+    .pricing-card ul {
+      list-style: none; margin-bottom: 28px;
+    }
+    .pricing-card ul li {
+      font-size: 0.9rem; padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pricing-card ul li:last-child { border-bottom: none; }
+    .pricing-card ul li::before {
+      content: "\2713"; color: var(--green); font-weight: 700; font-size: 0.85rem;
+    }
+    .pricing-card .btn { width: 100%; justify-content: center; }
+
+    /* ── Process Steps ────────────── */
+    .process-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px; margin-top: 50px;
+    }
+    .process-step {
+      text-align: center; position: relative;
+    }
+    .process-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 800; color: #fff;
+      margin: 0 auto 16px;
+    }
+    .process-step h3 {
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 8px;
+    }
+    .process-step p {
+      font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;
+    }
+
+    /* ── FAQ ──────────────────────── */
+    .faq-list {
+      max-width: 720px; margin: 40px auto 0;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-q {
+      width: 100%; background: none; border: none; color: var(--text);
+      font-family: inherit; font-size: 1rem; font-weight: 600;
+      padding: 20px 0; text-align: left; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .faq-q:hover { color: var(--accent-light); }
+    .faq-q .faq-arrow {
+      font-size: 1.2rem; transition: transform 0.3s;
+      color: var(--text-muted);
+    }
+    .faq-item.open .faq-arrow { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    }
+    .faq-item.open .faq-a { max-height: 200px; }
+    .faq-a p {
+      font-size: 0.9rem; color: var(--text-muted); line-height: 1.7;
+      padding-bottom: 20px;
+    }
+
+    /* ── CTA ──────────────────────── */
+    .final-cta {
+      text-align: center; padding: 120px 2rem;
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(108,92,231,0.08) 50%, var(--bg) 100%);
+    }
+    .final-cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 16px;
+    }
+    .final-cta p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 32px; }
+
+    /* ── Footer ───────────────────── */
+    footer {
+      text-align: center; padding: 32px 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+
+    /* ── Animations ───────────────── */
+    .fade-in {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ───────────────── */
+    @media (max-width: 768px) {
+      section { padding: 60px 1rem; }
+      .hero { padding-top: 100px; min-height: auto; }
+      .hero h1 { font-size: 2rem; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">MyClaw</a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/services.html" class="active">Services</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9681;</button>
+        <a href="#pricing" class="btn btn-primary btn-sm">View Pricing</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="section-label">Services</div>
+      <h1>OpenClaw Setup.<br>Done For You.</h1>
+      <p>Stop spending hours configuring bots, integrations, and cron jobs. I'll set up your entire OpenClaw system — Telegram, Discord, Twitter automation, and more — so you can focus on what matters.</p>
+      <a href="#pricing" class="btn btn-primary btn-lg">See Pricing &darr;</a>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Up and running in 4 steps</h2>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="process-num">1</div>
+          <h3>Pick a Plan</h3>
+          <p>Choose the tier that fits your needs — from basic messaging to full automation.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">2</div>
+          <h3>Share Access</h3>
+          <p>Provide your server/account details via a secure form. I never store passwords.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">3</div>
+          <h3>I Build It</h3>
+          <p>Full OpenClaw setup — installs, configs, integrations, cron jobs, tested end-to-end.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">4</div>
+          <h3>You're Live</h3>
+          <p>Get a walkthrough of your setup plus 7 days of free support for any issues.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-title">Simple, transparent pricing</h2>
+      <p class="section-sub mx-auto">One-time setup fee. No subscriptions. No hidden costs.</p>
+
+      <div class="pricing-grid">
+
+        <!-- STARTER -->
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="price">$75 <span>one-time</span></div>
+          <div class="price-note">Perfect for getting started</div>
+          <ul>
+            <li>OpenClaw installation & configuration</li>
+            <li>1 messaging integration (Telegram or Discord)</li>
+            <li>Bot creation & pairing</li>
+            <li>Basic agent setup</li>
+            <li>Tested & verified working</li>
+            <li>3 days of support</li>
+          </ul>
+          <a href="/#contact" class="btn btn-secondary">Get Started</a>
+        </div>
+
+        <!-- PROFESSIONAL -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Most Popular</div>
+          <h3>Professional</h3>
+          <div class="price">$200 <span>one-time</span></div>
+          <div class="price-note">Full automation suite</div>
+          <ul>
+            <li>Everything in Starter</li>
+            <li>Telegram + Discord + Twitter/X</li>
+            <li>Twitter browser automation (no API needed)</li>
+            <li>Auto-tweet cron jobs (2x daily)</li>
+            <li>Headless browser profile setup</li>
+            <li>Custom safe skills installed</li>
+            <li>7 days of support</li>
+          </ul>
+          <a href="/#contact" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <!-- ENTERPRISE -->
+        <div class="pricing-card">
+          <h3>Enterprise</h3>
+          <div class="price">$400 <span>one-time</span></div>
+          <div class="price-note">White-glove setup + custom builds</div>
+          <ul>
+            <li>Everything in Professional</li>
+            <li>Custom skill development</li>
+            <li>Growth analytics dashboard</li>
+            <li>Multi-account management</li>
+            <li>Webhook integrations (Airtable, Notion, etc.)</li>
+            <li>Content strategy & scheduling</li>
+            <li>14 days of priority support</li>
+          </ul>
+          <a href="/#contact" class="btn btn-secondary">Get Started</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">What's Included</div>
+      <h2 class="section-title">Battle-tested setup, not guesswork</h2>
+      <p class="section-sub mx-auto">I run this exact stack myself — every integration is proven and production-ready.</p>
+      <div class="process-grid" style="margin-top:40px;">
+        <div class="process-step">
+          <div class="process-num" style="font-size:1.5rem;">&#9992;</div>
+          <h3>Telegram Bot</h3>
+          <p>Custom bot with DM pairing, message delivery, and secure auth.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num" style="font-size:1.5rem;">&#127918;</div>
+          <h3>Discord Bot</h3>
+          <p>Server setup, bot invite, DM integration, webhook notifications.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num" style="font-size:1.5rem;">&#128038;</div>
+          <h3>Twitter/X Automation</h3>
+          <p>Browser-based posting (no API costs), scheduled tweets, engagement tools.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num" style="font-size:1.5rem;">&#9200;</div>
+          <h3>Cron Jobs</h3>
+          <p>Automated daily tasks — tweets, reports, monitoring — all hands-free.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Common Questions</h2>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What is OpenClaw?
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-a">
+            <p>OpenClaw is an open-source AI agent framework that connects to your messaging apps and automates tasks. Think of it as a personal AI assistant that runs 24/7 on your machine — handling tweets, messages, scheduling, and more.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Do I need technical skills?
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Not at all. That's the whole point of this service — I handle all the technical setup so you don't have to. You'll get a working system with a simple walkthrough of how to use it.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is my data safe?
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Yes. Everything runs on your own machine — your data never leaves your system. I use secure, vetted skills only (no unreviewed community plugins) and never store your credentials.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            How long does setup take?
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Starter tier takes about 1-2 hours. Professional takes 3-4 hours. Enterprise may take 1-2 days depending on custom requirements. I'll keep you updated throughout.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What if something breaks after setup?
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Every plan includes free support (3-14 days depending on tier). If anything goes wrong, I'll fix it. After the support period, you can reach out anytime for help at a small hourly rate.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Do I need to pay for any APIs?
+            <span class="faq-arrow">+</span>
+          </button>
+          <div class="faq-a">
+            <p>No. The Twitter automation uses browser-based posting (no API costs). Telegram and Discord bots are free. The only cost is the AI model provider, which you can choose based on your budget (including free tiers).</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta fade-in">
+    <h2>Ready to automate your digital life?</h2>
+    <p>Get a fully working OpenClaw setup — no tech skills required.</p>
+    <a href="/#contact" class="btn btn-primary btn-lg">Get in Touch &rarr;</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    MyClaw &mdash; OpenClaw Setup Services
+  </footer>
+
+  <!-- JS -->
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      item.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
