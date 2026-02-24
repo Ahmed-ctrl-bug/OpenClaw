@@ -1,9 +1,11 @@
-async function notifyTelegram(name, email, message) {
+async function notifyTelegram(name, email, service, message) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) return;
 
-  const text = `New MyClaw Contact!\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
+  const tierLabels = { starter: 'Starter ($75)', professional: 'Professional ($200)', enterprise: 'Enterprise ($400)', question: 'Just a question' };
+  const tierLabel = tierLabels[service] || service || 'Not specified';
+  const text = `New MyClaw Contact!\n\nName: ${name}\nEmail: ${email}\nService: ${tierLabel}\nMessage: ${message}`;
   await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -11,20 +13,25 @@ async function notifyTelegram(name, email, message) {
   }).catch(() => {});
 }
 
-async function notifyDiscord(name, email, message) {
+async function notifyDiscord(name, email, service, message) {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl) return;
+
+  const tierLabels = { starter: 'Starter ($75)', professional: 'Professional ($200)', enterprise: 'Enterprise ($400)', question: 'Just a question' };
+  const tierLabel = tierLabels[service] || service || 'Not specified';
+  const isPaid = service && service !== 'question';
 
   await fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       embeds: [{
-        title: 'New MyClaw Contact!',
-        color: 0x7c3aed,
+        title: isPaid ? 'New Service Request!' : 'New MyClaw Contact!',
+        color: isPaid ? 0x00d4aa : 0x7c3aed,
         fields: [
           { name: 'Name', value: name, inline: true },
           { name: 'Email', value: email, inline: true },
+          { name: 'Service', value: tierLabel, inline: true },
           { name: 'Message', value: message },
         ],
         timestamp: new Date().toISOString(),
@@ -44,11 +51,15 @@ module.exports = async function handler(req, res) {
 
   const name = req.body.name;
   const email = req.body.email;
+  const service = req.body.service || 'question';
   const message = req.body.message;
 
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'Name, email, and message are required' });
   }
+
+  const tierLabels = { starter: 'Starter ($75)', professional: 'Professional ($200)', enterprise: 'Enterprise ($400)', question: 'Just a question' };
+  const tierLabel = tierLabels[service] || service;
 
   try {
     const airtableRes = await fetch('https://api.airtable.com/v0/appvcWUjD4JJQwnqC/Contacts', {
@@ -58,7 +69,7 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        records: [{ fields: { Name: name, Email: email, Message: message, Status: 'Todo' } }]
+        records: [{ fields: { Name: name, Email: email, Service: tierLabel, Message: message, Status: 'Todo' } }]
       }),
     });
 
@@ -70,8 +81,8 @@ module.exports = async function handler(req, res) {
 
     // Send notifications (don't block response)
     await Promise.allSettled([
-      notifyTelegram(name, email, message),
-      notifyDiscord(name, email, message),
+      notifyTelegram(name, email, service, message),
+      notifyDiscord(name, email, service, message),
     ]);
 
     return res.status(200).json({ success: true, id: data.records[0].id });
