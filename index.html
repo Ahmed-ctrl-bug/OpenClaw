@@ -183,6 +183,9 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    #typewriter {
+      display: inline-block; min-width: 280px; text-align: center;
+    }
     .tw-cursor {
       -webkit-text-fill-color: var(--accent-light);
       animation: blink-cursor 0.75s step-end infinite;
@@ -496,7 +499,7 @@
       </div>
     </div>
     <div class="hero-content">
-      <h1>Your AI for <span id="typewriter"></span><span class="tw-cursor">|</span></h1>
+      <h1>Your AI for<br><span id="typewriter"></span><span class="tw-cursor">|</span></h1>
       <p>MyClaw is a 24/7 AI assistant with 1000+ tools via <strong>OAuth</strong> and <strong>sandboxed execution</strong>. Built on the ideas behind OpenClaw, rebuilt from scratch for security.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary">Deploy in seconds.</a>
@@ -551,7 +554,7 @@
         <div class="msg-card">
           <div class="msg-icon">&#127918;</div>
           <div class="msg-name">Discord</div>
-          <div class="msg-soon">Soon</div>
+          <div class="msg-badge">&#10003; Active</div>
         </div>
         <div class="msg-card">
           <div class="msg-icon">&#128488;</div>
