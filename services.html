@@ -185,6 +185,81 @@
       font-size: 1.15rem; color: var(--text-muted);
       max-width: 600px; margin: 0 auto 36px; line-height: 1.7;
     }
+    .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Template Cards ──────────── */
+    .template-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 50px;
+    }
+    .template-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 24px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .template-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+    .template-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin-bottom: 16px; color: #fff;
+    }
+    .template-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+    .template-card .template-desc {
+      font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;
+    }
+    .template-card .template-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .template-price {
+      font-size: 1.5rem; font-weight: 800; color: var(--accent-light);
+    }
+    .template-price span { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
+    .template-tag {
+      background: rgba(0,212,170,0.12); color: var(--green);
+      font-size: 0.7rem; font-weight: 700; padding: 4px 10px;
+      border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    /* ── Bot Service Cards ────────── */
+    .bot-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px; margin-top: 50px;
+    }
+    .bot-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px 28px;
+      transition: all 0.3s;
+    }
+    .bot-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+    .bot-card-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+    }
+    .bot-card-icon {
+      width: 50px; height: 50px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; color: #fff; flex-shrink: 0;
+    }
+    .bot-card h3 { font-size: 1.15rem; font-weight: 700; }
+    .bot-card .bot-tagline { font-size: 0.8rem; color: var(--text-muted); }
+    .bot-card .bot-desc {
+      font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .bot-card .bot-tiers {
+      display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .bot-tier {
+      background: rgba(108,92,231,0.08); border: 1px solid rgba(108,92,231,0.15);
+      border-radius: 8px; padding: 8px 14px; text-align: center; flex: 1; min-width: 80px;
+    }
+    .bot-tier .tier-name { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .bot-tier .tier-price { font-size: 1.1rem; font-weight: 800; color: var(--accent-light); }
 
     /* ── Pricing Cards ────────────── */
     .pricing-grid {
@@ -346,6 +421,9 @@
       <div class="nav-links" id="navLinks">
         <a href="/">Home</a>
         <a href="/services.html" class="active">Services</a>
+        <a href="#templates">Templates</a>
+        <a href="#bots">Bot Services</a>
+        <a href="#pricing">Full Setup</a>
       </div>
       <div class="nav-right">
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9681;</button>
@@ -366,9 +444,117 @@
     </div>
     <div class="hero-content">
       <div class="section-label">Services</div>
-      <h1>OpenClaw Setup.<br>Done For You.</h1>
-      <p>Stop spending hours configuring bots, integrations, and cron jobs. I'll set up your entire OpenClaw system — Telegram, Discord, Twitter automation, and more — so you can focus on what matters.</p>
-      <a href="#pricing" class="btn btn-primary btn-lg">See Pricing &darr;</a>
+      <h1>AI Automation.<br>Templates. Bots. Full Setup.</h1>
+      <p>DIY templates starting at $19, custom bot builds from $50, or full OpenClaw setup from $90. Pick what works for you.</p>
+      <div class="hero-buttons">
+        <a href="#templates" class="btn btn-primary btn-lg">DIY Templates &darr;</a>
+        <a href="#bots" class="btn btn-secondary btn-lg">Bot Services &darr;</a>
+        <a href="#pricing" class="btn btn-secondary btn-lg">Full Setup &darr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIY TEMPLATES -->
+  <section id="templates" class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">DIY Templates</div>
+      <h2 class="section-title">Build it yourself &mdash; in 10 minutes</h2>
+      <p class="section-sub mx-auto">Pre-built automation kits with full source code, configs, and step-by-step guides. Download, customize, deploy.</p>
+
+      <div class="template-grid">
+        <div class="template-card">
+          <div class="template-icon" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">X</div>
+          <h3>Twitter/X Auto-Post Kit</h3>
+          <p class="template-desc">AI writes tweets in your voice, cron publishes them on schedule. Includes growth tracker, voice template, and setup guide.</p>
+          <div class="template-bottom">
+            <div class="template-price">$29 <span>one-time</span></div>
+            <span class="template-tag">Instant Download</span>
+          </div>
+          <a href="https://5736996135809.gumroad.com/l/fstgg" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px;">Get on Gumroad &rarr;</a>
+        </div>
+
+        <div class="template-card">
+          <div class="template-icon" style="background:linear-gradient(135deg,#0088cc,#54b8ea);">&#9993;</div>
+          <h3>Telegram AI Bot Kit</h3>
+          <p class="template-desc">Custom commands, AI auto-responses, scheduled messages, and notification alerts. Full source code and configs included.</p>
+          <div class="template-bottom">
+            <div class="template-price">$19 <span>one-time</span></div>
+            <span class="template-tag">Instant Download</span>
+          </div>
+          <a href="https://5736996135809.gumroad.com" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px;">Get on Gumroad &rarr;</a>
+        </div>
+
+        <div class="template-card" style="border-style:dashed;">
+          <div class="template-icon" style="background:linear-gradient(135deg,#5865F2,#7289da);">&#127918;</div>
+          <h3>Discord Bot Kit</h3>
+          <p class="template-desc">AI chat, moderation, welcome flows, and scheduled announcements. Coming soon.</p>
+          <div class="template-bottom">
+            <div class="template-price" style="color:var(--text-muted);">Coming Soon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDIVIDUAL BOT SERVICES -->
+  <section id="bots" class="fade-in">
+    <div class="container text-center">
+      <div class="section-label">Bot Services</div>
+      <h2 class="section-title">I'll build it for you</h2>
+      <p class="section-sub mx-auto">Custom AI bots built to your specs. Delivered with source code, documentation, and support.</p>
+
+      <div class="bot-grid">
+        <div class="bot-card">
+          <div class="bot-card-header">
+            <div class="bot-card-icon" style="background:linear-gradient(135deg,#0088cc,#54b8ea);">&#9993;</div>
+            <div>
+              <h3>Telegram Bot</h3>
+              <div class="bot-tagline">Custom AI-powered Telegram bot</div>
+            </div>
+          </div>
+          <p class="bot-desc">Send/receive messages, custom commands, AI responses, scheduled notifications, business workflow automation. Fully documented and handed over.</p>
+          <div class="bot-tiers">
+            <div class="bot-tier"><div class="tier-name">Starter</div><div class="tier-price">$50</div></div>
+            <div class="bot-tier"><div class="tier-name">Standard</div><div class="tier-price">$120</div></div>
+            <div class="bot-tier"><div class="tier-name">Premium</div><div class="tier-price">$250</div></div>
+          </div>
+          <a href="/#contact" class="btn btn-primary" style="width:100%;justify-content:center;">Order on Fiverr &rarr;</a>
+        </div>
+
+        <div class="bot-card">
+          <div class="bot-card-header">
+            <div class="bot-card-icon" style="background:linear-gradient(135deg,#5865F2,#7289da);">&#127918;</div>
+            <div>
+              <h3>Discord Bot</h3>
+              <div class="bot-tagline">AI-powered community bot</div>
+            </div>
+          </div>
+          <p class="bot-desc">Welcome messages, custom commands, AI chat, auto-moderation, scheduled posts, role management, ticket systems, and analytics.</p>
+          <div class="bot-tiers">
+            <div class="bot-tier"><div class="tier-name">Starter</div><div class="tier-price">$50</div></div>
+            <div class="bot-tier"><div class="tier-name">Standard</div><div class="tier-price">$120</div></div>
+            <div class="bot-tier"><div class="tier-name">Premium</div><div class="tier-price">$250</div></div>
+          </div>
+          <a href="/#contact" class="btn btn-primary" style="width:100%;justify-content:center;">Order on Fiverr &rarr;</a>
+        </div>
+
+        <div class="bot-card">
+          <div class="bot-card-header">
+            <div class="bot-card-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);">&#9788;</div>
+            <div>
+              <h3>Daily Briefing Bot</h3>
+              <div class="bot-tagline">AI morning briefing on Telegram or Discord</div>
+            </div>
+          </div>
+          <p class="bot-desc">Wake up to weather, calendar, urgent emails, news, and more. Fully customizable data sources, delivered to your preferred channel every morning.</p>
+          <div class="bot-tiers">
+            <div class="bot-tier"><div class="tier-name">Starter</div><div class="tier-price">$60</div></div>
+            <div class="bot-tier"><div class="tier-name">Standard</div><div class="tier-price">$140</div></div>
+            <div class="bot-tier"><div class="tier-name">Premium</div><div class="tier-price">$280</div></div>
+          </div>
+          <a href="/#contact" class="btn btn-primary" style="width:100%;justify-content:center;">Order on Fiverr &rarr;</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -405,16 +591,16 @@
   <!-- PRICING -->
   <section id="pricing" class="fade-in">
     <div class="container text-center">
-      <div class="section-label">Pricing</div>
-      <h2 class="section-title">Simple, transparent pricing</h2>
-      <p class="section-sub mx-auto">One-time setup fee. No subscriptions. No hidden costs.</p>
+      <div class="section-label">Full Setup Service</div>
+      <h2 class="section-title">Want everything done for you?</h2>
+      <p class="section-sub mx-auto">Full OpenClaw setup — Telegram, Discord, Twitter, cron jobs, skills. One-time fee. No subscriptions.</p>
 
       <div class="pricing-grid">
 
         <!-- STARTER -->
         <div class="pricing-card">
           <h3>Starter</h3>
-          <div class="price">$75 <span>one-time</span></div>
+          <div class="price">$90 <span>one-time</span></div>
           <div class="price-note">Perfect for getting started</div>
           <ul>
             <li>OpenClaw installation & configuration</li>
