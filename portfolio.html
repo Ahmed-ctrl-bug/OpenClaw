@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — MyClaw | 14+ Websites Built for Local Businesses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card-hover: #1a1a26;
+      --text: #e8e8ed;
+      --text-muted: #8888a0;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --accent-glow: rgba(108, 92, 231, 0.3);
+      --border: #1e1e2e;
+      --green: #00d4aa;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f5fa;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f0f0f5;
+      --text: #1a1a2e;
+      --text-muted: #666680;
+      --border: #e0e0ea;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border); padding: 0 24px;
+    }
+    [data-theme="light"] nav { background: rgba(245,245,250,0.85); }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand { font-weight: 800; font-size: 1.3rem; color: var(--accent-light); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent-light); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border); color: var(--text-muted);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; font-size: 0.95rem; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #5b4bd6; transform: translateY(-1px); }
+    .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+
+    .hero {
+      padding: 140px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 600px; height: 600px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 12px;
+      position: relative;
+    }
+    .hero .stat-row {
+      display: flex; gap: 32px; justify-content: center; margin-top: 32px;
+      position: relative;
+    }
+    .hero .stat-item { text-align: center; }
+    .hero .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent-light); }
+    .hero .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+    .section { padding: 60px 24px; max-width: 1200px; margin: 0 auto; }
+    .section-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; text-align: center; }
+    .section-sub { color: var(--text-muted); text-align: center; margin-bottom: 48px; font-size: 1rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .card-browser {
+      background: #1e1e2e;
+      padding: 0;
+    }
+    .browser-bar {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 14px;
+      background: #2a2a3e;
+      border-bottom: 1px solid var(--border);
+    }
+    .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-dot.r { background: #ef4444; }
+    .browser-dot.y { background: #eab308; }
+    .browser-dot.g { background: #22c55e; }
+    .browser-url {
+      margin-left: 12px; font-size: 0.75rem; color: var(--text-muted);
+      background: rgba(255,255,255,0.05); padding: 4px 12px; border-radius: 6px; flex: 1;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .card-preview {
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .card-preview .icon { font-size: 48px; margin-bottom: 8px; }
+    .card-preview .biz-name { font-size: 1.2rem; font-weight: 700; color: #fff; }
+    .card-preview .biz-type { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+
+    .card-body { padding: 20px; }
+    .card-body h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+    .card-body .type-tag {
+      display: inline-block; font-size: 0.75rem; font-weight: 600;
+      padding: 4px 10px; border-radius: 6px; margin-bottom: 12px;
+    }
+    .tag-bakery { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .tag-restaurant { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .tag-salon { background: rgba(236,72,153,0.15); color: #ec4899; }
+    .tag-clinic { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .tag-gym { background: rgba(99,102,241,0.15); color: #6366f1; }
+
+    .card-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-light); font-size: 0.9rem; font-weight: 600;
+      text-decoration: none;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    .cta-section {
+      text-align: center; padding: 80px 24px;
+      position: relative;
+    }
+    .cta-section h2 { font-size: 2rem; font-weight: 800; margin-bottom: 16px; }
+    .cta-section p { color: var(--text-muted); margin-bottom: 32px; font-size: 1.1rem; }
+
+    footer {
+      text-align: center; padding: 32px 24px;
+      color: var(--text-muted); font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero .stat-row { flex-direction: column; gap: 16px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">MyClaw</a>
+      <div class="nav-links">
+        <a href="/services.html">Services</a>
+        <a href="/portfolio.html" class="active">Portfolio</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9681;</button>
+        <a href="/#contact" class="btn btn-primary btn-sm">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>14+ Websites Built for<br>Local Businesses</h1>
+    <p>Real preview sites built for bakeries, restaurants, salons, clinics, and gyms in Srinagar — all in under 24 hours.</p>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num">14+</div>
+        <div class="stat-label">Sites Built</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Industries</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24hr</div>
+        <div class="stat-label">Delivery</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Bakeries &amp; Cafes</h2>
+    <p class="section-sub">Custom websites for Srinagar's most loved bakeries</p>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites-pink.vercel.app/biz/srinagar-le-delice</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #f59e0b22, #f59e0b44);">
+            <div class="icon">🍰</div>
+            <div class="biz-name">Le Delice</div>
+            <div class="biz-type">4,990 reviews</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Le Delice</h3>
+          <span class="type-tag tag-bakery">Bakery</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-le-delice" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites-pink.vercel.app/biz/srinagar-bakers-t-talk-by-rouf</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #ec489922, #ec489944);">
+            <div class="icon">🧁</div>
+            <div class="biz-name">Bakers T Talk</div>
+            <div class="biz-type">By Rouf</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Bakers T Talk By Rouf</h3>
+          <span class="type-tag tag-bakery">Bakery</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-bakers-t-talk-by-rouf" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites-pink.vercel.app/biz/srinagar-nice-bakery-and-restaurant</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #f59e0b22, #f59e0b44);">
+            <div class="icon">🍞</div>
+            <div class="biz-name">Nice Bakery</div>
+            <div class="biz-type">Bakery &amp; Restaurant</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Nice Bakery and Restaurant</h3>
+          <span class="type-tag tag-bakery">Bakery</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-nice-bakery-and-restaurant-best-bakery-and-cake-shop-in-srinagar" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites-pink.vercel.app/biz/srinagar-la-vita-bakes</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #ffa94d22, #ffa94d44);">
+            <div class="icon">🎂</div>
+            <div class="biz-name">La Vita Bakes</div>
+            <div class="biz-type">Bakery</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>La Vita Bakes</h3>
+          <span class="type-tag tag-bakery">Bakery</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-la-vita-bakes" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Restaurants</h2>
+    <p class="section-sub">Bringing Srinagar's best restaurants online</p>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-mughal-darbar-90</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #ef444422, #ef444444);">
+            <div class="icon">🍛</div>
+            <div class="biz-name">Mughal Darbar</div>
+            <div class="biz-type">Restaurant</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Mughal Darbar 90</h3>
+          <span class="type-tag tag-restaurant">Restaurant</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-mughal-darbar-90" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-eataly</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #ef444422, #ef444444);">
+            <div class="icon">🍕</div>
+            <div class="biz-name">Eataly</div>
+            <div class="biz-type">Restaurant</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Eataly</h3>
+          <span class="type-tag tag-restaurant">Restaurant</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-eataly" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Salons &amp; Spas</h2>
+    <p class="section-sub">Professional web presence for beauty businesses</p>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-scratch-salon</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #ec489922, #ec489944);">
+            <div class="icon">💇</div>
+            <div class="biz-name">SCRATCH SALON</div>
+            <div class="biz-type">Salon</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>SCRATCH SALON</h3>
+          <span class="type-tag tag-salon">Salon</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-scratch-salon" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-color-corner-salon</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #ec489922, #ec489944);">
+            <div class="icon">💅</div>
+            <div class="biz-name">Color Corner Salon</div>
+            <div class="biz-type">Salon</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Color Corner Salon</h3>
+          <span class="type-tag tag-salon">Salon</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-color-corner-salon" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-stylette-hair-studio</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #a855f722, #a855f744);">
+            <div class="icon">✂️</div>
+            <div class="biz-name">Stylette Hair Studio</div>
+            <div class="biz-type">Salon</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Stylette Hair Studio</h3>
+          <span class="type-tag tag-salon">Salon</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-stylette-hair-studio" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Clinics &amp; Healthcare</h2>
+    <p class="section-sub">Helping healthcare providers get found online</p>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-ortho-plus-physiotherapy</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #22c55e22, #22c55e44);">
+            <div class="icon">🏥</div>
+            <div class="biz-name">Ortho Plus</div>
+            <div class="biz-type">Physiotherapy &amp; Sports Injury</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Ortho Plus Physiotherapy</h3>
+          <span class="type-tag tag-clinic">Clinic</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-ortho-plus-physiotherapy-and-sports-injury-clinic" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-dr-s-m-farooq</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #22c55e22, #22c55e44);">
+            <div class="icon">👁️</div>
+            <div class="biz-name">Dr. S M Farooq</div>
+            <div class="biz-type">Advanced Vision Care</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>DR. S M FAROOQ Advanced Vision Care</h3>
+          <span class="type-tag tag-clinic">Clinic</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-dr-s-m-farooq-advanced-vision-care" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-shah-dental-clinic</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #22c55e22, #22c55e44);">
+            <div class="icon">🦷</div>
+            <div class="biz-name">Shah Dental Clinic</div>
+            <div class="biz-type">Dental</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Shah Dental Clinic</h3>
+          <span class="type-tag tag-clinic">Clinic</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-shah-dental-clinic" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Gyms &amp; Fitness</h2>
+    <p class="section-sub">Getting fitness businesses found on Google</p>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-orville-gym</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #6366f122, #6366f144);">
+            <div class="icon">🏋️</div>
+            <div class="biz-name">Orville Gym</div>
+            <div class="biz-type">Gym</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Orville Gym</h3>
+          <span class="type-tag tag-gym">Gym</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-orville-gym" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-browser">
+          <div class="browser-bar">
+            <div class="browser-dot r"></div><div class="browser-dot y"></div><div class="browser-dot g"></div>
+            <div class="browser-url">preview-sites/biz/srinagar-muscleup-fitness</div>
+          </div>
+          <div class="card-preview" style="background: linear-gradient(135deg, #6366f122, #6366f144);">
+            <div class="icon">💪</div>
+            <div class="biz-name">MuscleUp Fitness</div>
+            <div class="biz-type">Gym &amp; Spa</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>MuscleUp Fitness - Gym and Spa</h3>
+          <span class="type-tag tag-gym">Gym</span>
+          <br><a href="https://preview-sites-pink.vercel.app/biz/srinagar-muscleup-fitness-gym-and-spa" target="_blank" class="card-link">View Live Site &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Want a Free Preview for Your Business?</h2>
+    <p>I'll build a professional website preview for your business — completely free. No strings attached.</p>
+    <a href="/?service=preview#contact" class="btn btn-primary">Get Your Free Preview</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 MyClaw. Built for local businesses in Srinagar.</p>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      var html = document.documentElement;
+      var current = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+      localStorage.setItem('theme', html.getAttribute('data-theme'));
+    }
+    (function() {
+      var saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+</body>
+</html>
