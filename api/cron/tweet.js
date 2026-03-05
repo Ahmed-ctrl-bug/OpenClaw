@@ -1,13 +1,13 @@
 const { TwitterApi } = require('twitter-api-v2');
 
 const tweets = [
-  "Need OpenClaw hosting? I offer reliable OpenClaw hosting as a service. DM me to get started! #OpenClaw #AI #Automation",
-  "Running OpenClaw shouldn't be hard. I host and manage it for you - gateway, skills, integrations, all handled. DM me! #OpenClaw #AIAgent",
-  "Want your own AI assistant on Telegram, Discord, or WhatsApp? I offer OpenClaw hosting so you don't have to deal with the setup. DM me! #AI",
-  "OpenClaw hosting made easy. I set up and manage your AI agent - you just chat with it. Interested? DM me! #OpenClaw #Automation",
-  "Skip the Node.js setup, Tailscale tunnels, and config files. I host OpenClaw for you. Fully managed. DM me to learn more! #OpenClaw #AI",
-  "Your own AI assistant that works 24/7 on Telegram & Discord. I offer OpenClaw hosting as a service. DM me! #AIAgent #OpenClaw",
-  "Tired of self-hosting AI agents? I run OpenClaw hosting - you get a fully managed AI assistant. Hit me up! #OpenClaw #AI #SaaS",
+  "Built 14 websites for local businesses this week. Bakeries, salons, clinics. None of them asked — I just did it as a free preview. Best cold outreach strategy I've found.",
+  "Small businesses in India are sleeping on local SEO. A salon with great reviews but no web presence is invisible to anyone searching \"best salon near me.\"",
+  "Ran SEO scans on 20 local businesses in Srinagar. Only 1 shows up in Google's local pack. The other 19 have no idea they're invisible.",
+  "A restaurant with 2,000+ reviews and zero online presence. That's not rare here — that's the norm. Huge opportunity for anyone who can build fast.",
+  "Used AI to respond to 126 Google reviews for local businesses. Owners don't even know you can do this. The tech gap in small business is wild.",
+  "The difference between a business that shows up on Google and one that doesn't? Usually just a website and some basic SEO. Not rocket science.",
+  "Every local business owner I talk to says the same thing — \"we get customers from word of mouth.\" True. But imagine if Google sent you customers too.",
 ];
 
 module.exports = async function handler(req, res) {
