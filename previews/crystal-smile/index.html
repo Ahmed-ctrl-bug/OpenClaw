@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crystal Smile — Premium Dental Care | Karan Nagar, Srinagar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --emerald: #047857;
+            --emerald-dark: #065f46;
+            --emerald-light: #ecfdf5;
+            --mint: #34d399;
+            --bg: #fefffe;
+            --bg-dark: #022c22;
+            --cream: #f7faf8;
+            --text: #1a1a2e;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --gold-accent: #d4a853;
+        }
+        body { font-family: 'Manrope', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+        /* NAV */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(254,255,254,0.95); backdrop-filter: blur(20px); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 72px; padding: 0 2rem; }
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo-icon { width: 36px; height: 36px; background: var(--emerald); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.1rem; }
+        .nav-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; color: var(--text); }
+        .nav-logo-text span { color: var(--emerald); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.88rem; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--emerald); }
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
+        .nav-phone { color: var(--text); font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+        .nav-cta { background: var(--emerald); color: white; padding: 0.6rem 1.4rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: 0.3s; }
+        .nav-cta:hover { background: var(--emerald-dark); }
+        .hamburger { display: none; background: none; border: none; cursor: pointer; }
+        .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; }
+
+        /* HERO — EDITORIAL */
+        .hero { padding: 9rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center; }
+        .hero-label { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .hero-label-line { width: 30px; height: 2px; background: var(--emerald); }
+        .hero-label-text { font-size: 0.8rem; font-weight: 700; color: var(--emerald); text-transform: uppercase; letter-spacing: 2px; }
+        .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 700; line-height: 1.08; margin-bottom: 1.5rem; }
+        .hero h1 em { font-style: italic; color: var(--emerald); }
+        .hero-text { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2rem; max-width: 480px; line-height: 1.8; }
+        .hero-actions { display: flex; gap: 1rem; align-items: center; margin-bottom: 3rem; }
+        .btn-em { background: var(--emerald); color: white; padding: 1rem 2.2rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: 0.3s; }
+        .btn-em:hover { background: var(--emerald-dark); transform: translateY(-2px); box-shadow: 0 12px 35px rgba(4,120,87,0.2); }
+        .btn-em-outline { border: 2px solid var(--border); color: var(--text); padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s; }
+        .btn-em-outline:hover { border-color: var(--emerald); color: var(--emerald); }
+        .hero-trust { display: flex; gap: 3rem; }
+        .hero-trust-item { display: flex; align-items: center; gap: 0.5rem; }
+        .hero-trust-icon { width: 32px; height: 32px; background: var(--emerald-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .hero-trust-text { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+        .hero-img-wrap { position: relative; }
+        .hero-img-main { width: 100%; height: 520px; background: linear-gradient(135deg, var(--emerald-light), #d1fae5); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
+        .hero-badge { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); background: white; padding: 1rem 2rem; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 1.5rem; }
+        .hb-item { text-align: center; }
+        .hb-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; color: var(--emerald); }
+        .hb-label { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .hb-divider { width: 1px; height: 40px; background: var(--border); }
+
+        /* SERVICES — ALTERNATING */
+        .services { padding: 8rem 2rem 4rem; max-width: 1200px; margin: 0 auto; }
+        .services-header { text-align: center; margin-bottom: 4rem; }
+        .sh-label { font-size: 0.8rem; font-weight: 700; color: var(--emerald); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.75rem; }
+        .sh-title { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; }
+        .svc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 4rem; padding-bottom: 4rem; border-bottom: 1px solid var(--border); }
+        .svc-row:last-child { border-bottom: none; }
+        .svc-row.reverse .svc-visual { order: -1; }
+        .svc-visual { height: 280px; background: var(--emerald-light); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+        .svc-num { font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: var(--emerald); opacity: 0.2; margin-bottom: 0.5rem; }
+        .svc-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .svc-content p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; }
+
+        /* BANNER */
+        .banner { background: var(--bg-dark); padding: 5rem 2rem; text-align: center; }
+        .banner h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: white; margin-bottom: 1rem; }
+        .banner p { color: rgba(255,255,255,0.6); margin-bottom: 2rem; font-size: 1.05rem; }
+        .banner-stats { display: flex; justify-content: center; gap: 4rem; margin-top: 3rem; }
+        .bs { text-align: center; }
+        .bs-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--mint); }
+        .bs-label { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 0.25rem; }
+
+        /* REVIEWS */
+        .reviews { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .reviews-header { text-align: center; margin-bottom: 3rem; }
+        .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .rev { border: 1px solid var(--border); border-radius: 20px; padding: 2rem; transition: 0.3s; }
+        .rev:hover { border-color: var(--emerald); }
+        .rev-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .rev-stars { color: #f59e0b; }
+        .rev-badge { background: var(--emerald-light); color: var(--emerald); padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
+        .rev-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
+        .rev-author { font-weight: 700; font-size: 0.9rem; }
+        .rev-loc { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* CTA */
+        .cta { padding: 6rem 2rem; }
+        .cta-card { max-width: 1000px; margin: 0 auto; background: var(--cream); border: 2px solid var(--emerald); border-radius: 28px; padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .cta-left h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+        .cta-left p { color: var(--text-muted); margin-bottom: 0.5rem; }
+        .cta-right { text-align: center; }
+        .cta-phone { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--emerald); font-weight: 700; text-decoration: none; display: block; margin-bottom: 1.5rem; }
+        .cta-right .btn-em { display: inline-block; }
+
+        /* FOOTER */
+        .footer { background: var(--bg-dark); color: rgba(255,255,255,0.5); padding: 3rem 2rem; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { font-family: 'Cormorant Garamond', serif; color: white; font-size: 1.3rem; }
+        .footer-logo span { color: var(--mint); }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-phone { display: none; }
+            .hamburger { display: block; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero-img-wrap { display: none; }
+            .hero-trust { flex-direction: column; gap: 1rem; }
+            .svc-row { grid-template-columns: 1fr; gap: 2rem; }
+            .svc-row.reverse .svc-visual { order: 0; }
+            .banner-stats { flex-direction: column; gap: 1.5rem; }
+            .rev-grid { grid-template-columns: 1fr; }
+            .cta-card { grid-template-columns: 1fr; text-align: center; }
+            .cta-left h2 { font-size: 2rem; }
+            .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <div class="nav-logo-icon">&#9830;</div>
+                <div class="nav-logo-text">Crystal <span>Smile</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="tel:+919419018407" class="nav-phone">+91 94190 18407</a>
+                <a href="tel:+919419018407" class="nav-cta">Appointment</a>
+            </div>
+            <button class="hamburger"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-label">
+                    <div class="hero-label-line"></div>
+                    <div class="hero-label-text">Karan Nagar, Srinagar</div>
+                </div>
+                <h1 class="serif">Precision Dentistry, <em>Crystal Clear</em> Results</h1>
+                <p class="hero-text">Dr. Irfan Ashraf Baba combines precision, artistry, and advanced dental science to deliver exceptional results. Your journey to a flawless smile starts here.</p>
+                <div class="hero-actions">
+                    <a href="tel:+919419018407" class="btn-em">Schedule a Visit &rarr;</a>
+                    <a href="#services" class="btn-em-outline">View Services</a>
+                </div>
+                <div class="hero-trust">
+                    <div class="hero-trust-item">
+                        <div class="hero-trust-icon">&#128274;</div>
+                        <div class="hero-trust-text">Fully Sterilized</div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <div class="hero-trust-icon">&#128161;</div>
+                        <div class="hero-trust-text">Modern Tech</div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <div class="hero-trust-icon">&#128150;</div>
+                        <div class="hero-trust-text">Gentle Care</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-img-wrap">
+                <div class="hero-img-main">&#128142;</div>
+                <div class="hero-badge">
+                    <div class="hb-item"><div class="hb-num">15+</div><div class="hb-label">Years</div></div>
+                    <div class="hb-divider"></div>
+                    <div class="hb-item"><div class="hb-num">5K+</div><div class="hb-label">Patients</div></div>
+                    <div class="hb-divider"></div>
+                    <div class="hb-item"><div class="hb-num">6</div><div class="hb-label">Specialties</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="services-header">
+            <div class="sh-label">Our Expertise</div>
+            <h2 class="sh-title serif">Services We Excel In</h2>
+        </div>
+        <div class="svc-row">
+            <div class="svc-content">
+                <div class="svc-num">01</div>
+                <h3>Cosmetic Dentistry</h3>
+                <p>From porcelain veneers to complete smile design, we craft beautiful smiles that look and feel natural. Every treatment is customized to your unique facial structure.</p>
+            </div>
+            <div class="svc-visual">&#10024;</div>
+        </div>
+        <div class="svc-row reverse">
+            <div class="svc-content">
+                <div class="svc-num">02</div>
+                <h3>Dental Implants</h3>
+                <p>Advanced titanium implant placement with precision planning. Our implants integrate seamlessly with your jawbone for a permanent, worry-free replacement.</p>
+            </div>
+            <div class="svc-visual">&#129463;</div>
+        </div>
+        <div class="svc-row">
+            <div class="svc-content">
+                <div class="svc-num">03</div>
+                <h3>Orthodontic Treatment</h3>
+                <p>Traditional braces, ceramic braces, and invisible aligners. We find the right solution for every age group, with results that last a lifetime.</p>
+            </div>
+            <div class="svc-visual">&#129702;</div>
+        </div>
+    </section>
+
+    <section class="banner" id="about">
+        <h2 class="serif">Led by Dr. Irfan Ashraf Baba</h2>
+        <p>A trusted name in Karan Nagar for over 15 years, delivering dental excellence with compassion.</p>
+        <a href="tel:+919419018407" class="btn-em">Book Your Visit</a>
+        <div class="banner-stats">
+            <div class="bs"><div class="bs-num">15+</div><div class="bs-label">Years Experience</div></div>
+            <div class="bs"><div class="bs-num">5000+</div><div class="bs-label">Happy Patients</div></div>
+            <div class="bs"><div class="bs-num">6</div><div class="bs-label">Specializations</div></div>
+            <div class="bs"><div class="bs-num">100%</div><div class="bs-label">Sterilized</div></div>
+        </div>
+    </section>
+
+    <section class="reviews" id="reviews">
+        <div class="reviews-header">
+            <div class="sh-label">Testimonials</div>
+            <h2 class="sh-title serif">Patient Stories</h2>
+        </div>
+        <div class="rev-grid">
+            <div class="rev">
+                <div class="rev-top">
+                    <div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <div class="rev-badge">Verified</div>
+                </div>
+                <p class="rev-text">"Crystal Smile lives up to its name. Dr. Irfan gave me the most natural-looking veneers. My smile has never looked better. The clinic is spotless and the staff is wonderful."</p>
+                <div class="rev-author">Aisha J.</div>
+                <div class="rev-loc">Karan Nagar, Srinagar</div>
+            </div>
+            <div class="rev">
+                <div class="rev-top">
+                    <div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <div class="rev-badge">Verified</div>
+                </div>
+                <p class="rev-text">"Had two implants done at Crystal Smile. The procedure was smooth, recovery was quick, and the results are perfect. Dr. Baba is an artist with dental work."</p>
+                <div class="rev-author">Omar R.</div>
+                <div class="rev-loc">Rajbagh, Srinagar</div>
+            </div>
+            <div class="rev">
+                <div class="rev-top">
+                    <div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <div class="rev-badge">Verified</div>
+                </div>
+                <p class="rev-text">"Took my kids for their first dental checkup. Dr. Irfan was so patient and kind with them. They actually want to go back! That says everything about this clinic."</p>
+                <div class="rev-author">Rukhsar S.</div>
+                <div class="rev-loc">Soura, Srinagar</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contact">
+        <div class="cta-card">
+            <div class="cta-left">
+                <h2 class="serif">Visit Crystal Smile</h2>
+                <p>Karan Nagar, Srinagar, Kashmir</p>
+                <p>Monday - Saturday | 10:00 AM - 7:00 PM</p>
+            </div>
+            <div class="cta-right">
+                <a href="tel:+919419018407" class="cta-phone">+91 94190 18407</a>
+                <a href="tel:+919419018407" class="btn-em">Book Appointment &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo serif">Crystal <span>Smile</span></div>
+            <div style="font-size:0.85rem;">&copy; 2026 Crystal Smile Dental. All rights reserved.</div>
+        </div>
+    </footer>
+</body>
+</html>
