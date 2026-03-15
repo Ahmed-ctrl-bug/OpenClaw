@@ -283,9 +283,9 @@ body{font-family:var(--font-body);color:var(--text-dark);line-height:1.7;overflo
 .dd-block{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .dd-block:nth-child(even){direction:rtl}
 .dd-block:nth-child(even) > *{direction:ltr}
-.dd-visual{background:linear-gradient(135deg,var(--charcoal),var(--charcoal-light));border-radius:20px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.dd-visual::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(183,110,121,0.2),transparent 60%)}
-.dd-visual svg{width:80px;height:80px;color:var(--rose-light);opacity:0.8;position:relative;z-index:1}
+.dd-visual{border-radius:20px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.dd-visual img{width:100%;height:100%;object-fit:cover;border-radius:20px;transition:transform 0.5s ease}
+.dd-block:hover .dd-visual img{transform:scale(1.05)}
 .dd-content h3{font-family:var(--font-heading);font-size:1.6rem;font-weight:700;margin-bottom:12px}
 .dd-content p{color:var(--text-muted);margin-bottom:16px;line-height:1.8}
 .dd-features{list-style:none;display:flex;flex-direction:column;gap:10px}
@@ -814,8 +814,8 @@ body{font-family:var(--font-body);color:var(--text-dark);line-height:1.7;overflo
     </div>
     <div class="dd-blocks">
       <div class="dd-block fade-in">
-        <div class="dd-visual" aria-hidden="true">
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="40" cy="35" r="20"/><path d="M25 55c0-8.3 6.7-15 15-15s15 6.7 15 15"/><path d="M35 30c0-2.8 2.2-5 5-5s5 2.2 5 5"/></svg>
+        <div class="dd-visual">
+          <img src="https://images.pexels.com/photos/3985329/pexels-photo-3985329.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Woman receiving hydra facial treatment" loading="lazy">
         </div>
         <div class="dd-content">
           <h3>Hydra Facial Treatment</h3>
@@ -828,8 +828,8 @@ body{font-family:var(--font-body);color:var(--text-dark);line-height:1.7;overflo
         </div>
       </div>
       <div class="dd-block fade-in">
-        <div class="dd-visual" aria-hidden="true">
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M40 10v60"/><path d="M20 30l20-20 20 20"/><circle cx="40" cy="50" r="10"/></svg>
+        <div class="dd-visual">
+          <img src="https://images.pexels.com/photos/10822254/pexels-photo-10822254.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Laser skin rejuvenation treatment" loading="lazy">
         </div>
         <div class="dd-content">
           <h3>Laser Skin Rejuvenation</h3>
@@ -842,8 +842,8 @@ body{font-family:var(--font-body);color:var(--text-dark);line-height:1.7;overflo
         </div>
       </div>
       <div class="dd-block fade-in">
-        <div class="dd-visual" aria-hidden="true">
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="15" width="40" height="50" rx="8"/><path d="M30 30h20M30 40h15M30 50h10"/><circle cx="52" cy="50" r="6"/></svg>
+        <div class="dd-visual">
+          <img src="https://images.pexels.com/photos/7581583/pexels-photo-7581583.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Cosmetic surgery aesthetic procedure" loading="lazy">
         </div>
         <div class="dd-content">
           <h3>Cosmetic Surgery</h3>
@@ -868,8 +868,8 @@ body{font-family:var(--font-body);color:var(--text-dark);line-height:1.7;overflo
     </div>
     <div class="dd-blocks">
       <div class="dd-block fade-in">
-        <div class="dd-visual" aria-hidden="true">
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M40 15c-5 8-15 18-15 30a15 15 0 0030 0c0-12-10-22-15-30z"/><path d="M33 40c0 3.9 3.1 7 7 7s7-3.1 7-7"/></svg>
+        <div class="dd-visual">
+          <img src="https://images.pexels.com/photos/27138340/pexels-photo-27138340.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hair transplant procedure" loading="lazy">
         </div>
         <div class="dd-content">
           <h3>Hair Transplant (FUE/FUT)</h3>
@@ -882,8 +882,8 @@ body{font-family:var(--font-body);color:var(--text-dark);line-height:1.7;overflo
         </div>
       </div>
       <div class="dd-block fade-in">
-        <div class="dd-visual" aria-hidden="true">
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M40 10v15M25 20l10 10M55 20L45 30"/><circle cx="40" cy="45" r="15"/><path d="M35 45h10"/></svg>
+        <div class="dd-visual">
+          <img src="https://images.pexels.com/photos/5619448/pexels-photo-5619448.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Laser hair removal treatment" loading="lazy">
         </div>
         <div class="dd-content">
           <h3>Laser Hair Removal</h3>
@@ -896,8 +896,8 @@ body{font-family:var(--font-body);color:var(--text-dark);line-height:1.7;overflo
         </div>
       </div>
       <div class="dd-block fade-in">
-        <div class="dd-visual" aria-hidden="true">
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="40" cy="30" r="15"/><path d="M30 45c0 8.3 4.5 15 10 15s10-6.7 10-15"/><path d="M35 28c0-2.8 2.2-5 5-5s5 2.2 5 5"/></svg>
+        <div class="dd-visual">
+          <img src="https://images.pexels.com/photos/28994390/pexels-photo-28994390.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hair loss treatment with serum" loading="lazy">
         </div>
         <div class="dd-content">
           <h3>Hair Loss Treatment</h3>
